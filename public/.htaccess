@@ -1,0 +1,27 @@
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent site from being embedded in an iframe (Clickjacking protection)
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent browsers from guessing the media type (MIME sniffing protection)
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection in older browsers
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Enforce HTTPS (HSTS) - only enable if you have SSL active
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# SPA Routing
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]
+</IfModule>
